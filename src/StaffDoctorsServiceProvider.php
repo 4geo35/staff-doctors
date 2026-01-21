@@ -2,6 +2,8 @@
 
 namespace GIS\StaffDoctors;
 
+use GIS\StaffDoctors\Models\DoctorInfo;
+use GIS\StaffDoctors\Observers\DoctorInfoObserver;
 use Illuminate\Support\ServiceProvider;
 
 class StaffDoctorsServiceProvider extends ServiceProvider
@@ -15,5 +17,14 @@ class StaffDoctorsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'sd');
+
+        $this->observeModels();
+    }
+
+    protected function observeModels(): void
+    {
+        $modelClass = config("staff-doctors.customDoctorInfoModel") ?? DoctorInfo::class;
+        $observerClass = config("staff-doctors.customDoctorInfoModelObserver") ?? DoctorInfoObserver::class;
+        $modelClass::observe($observerClass);
     }
 }
