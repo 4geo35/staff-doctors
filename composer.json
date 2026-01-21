@@ -1,0 +1,27 @@
+{
+    "name": "4geo35/staff-doctors",
+    "description": "Expand staff package for doctors yml",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir",
+            "email": "aweram-team@yandex.ru"
+        }
+    ],
+    "require": {
+        "4geo35/staff-pages": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "GIS\\StaffDoctors\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GIS\\StaffDoctors\\StaffDoctorsServiceProvider"
+            ]
+        }
+    }
+}
