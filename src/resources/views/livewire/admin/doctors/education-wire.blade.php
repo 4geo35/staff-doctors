@@ -1,6 +1,10 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="font-medium text-2xl">Образование</h3>
+        <div class="space-y-indent-half">
+            @include("sd::admin.doctors.education.title")
+            <x-tt::notifications.error prefix="doctor-education-" />
+            <x-tt::notifications.success prefix="doctor-education-" />
+        </div>
     </div>
     <div class="card-body"></div>
 </div>

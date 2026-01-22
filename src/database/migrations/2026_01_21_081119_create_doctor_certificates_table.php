@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('doctor_certificates', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("doctor_info_id");
             $table->string("organization")->nullable();
             $table->unsignedSmallInteger("finish_year")->nullable();
             $table->string("name")->nullable();
