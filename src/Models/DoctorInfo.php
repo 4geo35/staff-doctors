@@ -30,6 +30,13 @@ class DoctorInfo extends Model implements DoctorInfoInterface
         return $this->hasMany($modelClass, "doctor_info_id");
     }
 
+    public function orderedEducation(): HasMany
+    {
+        return $this->education()
+            ->orderBy("finish_year", "desc")
+            ->orderBy("organization");
+    }
+
     public function jobs(): HasMany
     {
         $modelClass = config("staff-doctors.customDoctorJobModel") ?? DoctorJob::class;
@@ -40,5 +47,12 @@ class DoctorInfo extends Model implements DoctorInfoInterface
     {
         $modelClass = config("staff-doctors.customDoctorCertificateModel") ?? DoctorCertificate::class;
         return $this->hasMany($modelClass, "doctor_info_id");
+    }
+
+    public function orderedCertificates(): HasMany
+    {
+        return $this->certificates()
+            ->orderBy("finish_year", "desc")
+            ->orderBy("organization");
     }
 }

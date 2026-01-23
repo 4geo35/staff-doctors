@@ -43,7 +43,7 @@ class CertificatesWire extends Component
 
     public function render(): View
     {
-        $query = $this->doctorInfo->certificates();
+        $query = $this->doctorInfo->orderedCertificates();
         $certificates = $query->get();
         return view("sd::livewire.admin.doctors.certificates-wire", compact("certificates"));
     }
@@ -57,13 +57,13 @@ class CertificatesWire extends Component
     public function showCreate(): void
     {
         $this->resetFields();
-        if (! $this->checkAuth("create")) { return; }
+        if (! $this->checkAuth()) { return; }
         $this->displayData = true;
     }
 
     public function store(): void
     {
-        if (! $this->checkAuth("create")) { return; }
+        if (! $this->checkAuth()) { return; }
         $this->validate();
 
         $this->doctorInfo->certificates()->create([
@@ -82,7 +82,7 @@ class CertificatesWire extends Component
         $this->certificateId = $certificateId;
         $certificate = $this->findModel();
         if (! $certificate) { return; }
-        if (! $this->checkAuth("update", $certificate)) { return; }
+        if (! $this->checkAuth()) { return; }
 
         $this->organization = $certificate->organization;
         $this->finishYear = $certificate->finish_year;
@@ -95,7 +95,7 @@ class CertificatesWire extends Component
     {
         $certificate = $this->findModel();
         if (! $certificate) { return; }
-        if (! $this->checkAuth("update", $certificate)) { return; }
+        if (! $this->checkAuth()) { return; }
         $this->validate();
 
         $certificate->update([
@@ -147,11 +147,10 @@ class CertificatesWire extends Component
         $this->reset("certificateId", "organization", "finishYear", "name");
     }
 
-    protected function checkAuth(string $action, DoctorCertificateInterface $certificate = null): bool
+    protected function checkAuth(): bool
     {
         try {
-            $modelClass = config("staff-doctors.customDoctorCertificateModel") ?? DoctorCertificate::class;
-            $this->authorize($action, $certificate ?? $modelClass);
+            $this->authorize("update", $this->employee);
             return true;
         } catch (AuthorizationException $e) {
             session()->flash("doctor-certificates-error", "Неавторизованное действие");
