@@ -21,6 +21,7 @@ interface DoctorInfoInterface extends Arrayable, ArrayAccess, CanBeEscapedWhenCa
     public function education(): HasMany;
     public function orderedEducation(): HasMany;
     public function jobs(): HasMany;
+    public function orderedJobs(): HasMany;
     public function certificates(): HasMany;
     public function orderedCertificates(): HasMany;
 }

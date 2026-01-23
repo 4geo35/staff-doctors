@@ -43,6 +43,13 @@ class DoctorInfo extends Model implements DoctorInfoInterface
         return $this->hasMany($modelClass, "doctor_info_id");
     }
 
+    public function orderedJobs(): HasMany
+    {
+        return $this->jobs()
+            ->orderBy("period_years", "desc")
+            ->orderBy("organization");
+    }
+
     public function certificates(): HasMany
     {
         $modelClass = config("staff-doctors.customDoctorCertificateModel") ?? DoctorCertificate::class;
