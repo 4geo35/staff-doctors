@@ -16,6 +16,7 @@ class Clinic extends Model implements ClinicInterface
         "email",
         "phone",
         "company_id",
+        "contact_id",
     ];
 
     public function contact(): BelongsTo
