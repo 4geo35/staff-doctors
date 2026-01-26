@@ -18,13 +18,17 @@ class StaffDoctorsServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
         $this->mergeConfigFrom(__DIR__ . '/config/staff-doctors.php', 'staff-doctors');
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
     }
 
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'sd');
 
+        $this->expandConfiguration();
         $this->observeModels();
 
         $this->addLivewireComponents();
@@ -69,5 +73,19 @@ class StaffDoctorsServiceProvider extends ServiceProvider
             "sd-admin-doctor-jobs",
             $component ?? AdminJobsWire::class
         );
+    }
+
+    protected function expandConfiguration(): void
+    {
+        $sd = app()->config["staff-doctors"];
+
+        $um = app()->config["user-management"];
+        $permissions = $um["permissions"];
+        $permissions[] = [
+            "policy" => $sd["clinicPolicy"],
+            "title" => $sd["clinicPolicyTitle"],
+            "key" => $sd["clinicPolicyKey"],
+        ];
+        app()->config["user-management.permissions"] = $permissions;
     }
 }

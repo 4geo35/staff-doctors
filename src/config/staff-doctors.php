@@ -11,6 +11,8 @@ return [
 
     "customDoctorCertificateModel" => null,
 
+    "customClinicModel" => null,
+
     // Blade components
     "customAdminBladeDoctorInfoComponent" => null,
 
@@ -19,4 +21,9 @@ return [
     "customAdminDoctorCertificatesComponent" => null,
     "customAdminDoctorEducationComponent" => null,
     "customAdminDoctorJobsComponent" => null,
+
+    // Policy
+    "clinicPolicy" => \GIS\StaffDoctors\Policies\ClinicPolicy::class,
+    "clinicPolicyTitle" => "Управление клиниками",
+    "clinicPolicyKey" => "clinics",
 ];
