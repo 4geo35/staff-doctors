@@ -1,7 +1,7 @@
 <?php
 
 return [
-    // Admin
+    // Models
     "customDoctorInfoModel" => null,
     "customDoctorInfoModelObserver" => null,
 
@@ -13,6 +13,12 @@ return [
 
     "customClinicModel" => null,
     "customClinicModelObserver" => null,
+
+    "customDoctorServiceModel" => null,
+
+    // Controllers
+    "customAdminClinicController" => null,
+    "customAdminDoctorServiceController" => null,
 
     // Listeners
     "customFreshClinicAfterContactUpdateListener" => null,
@@ -34,4 +40,8 @@ return [
     "clinicPolicy" => \GIS\StaffDoctors\Policies\ClinicPolicy::class,
     "clinicPolicyTitle" => "Управление клиниками",
     "clinicPolicyKey" => "clinics",
+
+    "servicePolicy" => \GIS\StaffDoctors\Policies\DoctorServicePolicy::class,
+    "servicePolicyTitle" => "Управление услугами врача",
+    "servicePolicyKey" => "doctor_services",
 ];
