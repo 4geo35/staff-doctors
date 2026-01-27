@@ -12,6 +12,14 @@ return [
     "customDoctorCertificateModel" => null,
 
     "customClinicModel" => null,
+    "customClinicModelObserver" => null,
+
+    // Listeners
+    "customFreshClinicAfterContactUpdateListener" => null,
+    "customDisassociateClinicContactAfterDeleteListener" => null,
+
+    // Facades
+    "customClinicActionsManager" => null,
 
     // Blade components
     "customAdminBladeDoctorInfoComponent" => null,

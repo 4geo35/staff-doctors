@@ -144,7 +144,7 @@ trait ClinicEditActions
 
     protected function resetFields(): void
     {
-        $this->reset("clinicId", "name", "address", "city", "email", "phone", "companyId", "contacts");
+        $this->reset("clinicId", "name", "address", "city", "email", "phone", "companyId", "contacts", "contactId");
     }
 
     protected function checkAuth(string $action, ClinicInterface $modelObject = null): bool

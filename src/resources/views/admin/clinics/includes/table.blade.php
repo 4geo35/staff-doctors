@@ -22,7 +22,14 @@
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->phone }}</td>
                 <td>{{ $item->company_id }}</td>
-                <td>{{ $item->contact_id }}</td>
+                <td>
+                    @if ($item->contact_id)
+                        <a href="{{ route('admin.contacts') }}?contact={{ $item->contact_id }}"
+                           class="text-primary hover:text-primary-hover" target="_blank">
+                            Просмотр
+                        </a>
+                    @endif
+                </td>
                 <td>
                     <div class="flex justify-center">
                         <button type="button" class="btn btn-dark px-btn-x-ico rounded-e-none"

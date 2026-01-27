@@ -9,6 +9,25 @@
         <form wire:submit.prevent="{{ $clinicId ? 'update' : 'store' }}" class="space-y-indent-half"
               id="clinicDataForm">
 
+            @if (config("contact-page"))
+                <div>
+                    <div class="inline-block mb-2">Контакт</div>
+                    @isset($contacts)
+                        <select class="form-select {{ $errors->has('contactId') ? 'border-danger' : '' }}"
+                                wire:model="contactId">
+                            <option value="">Выберите...</option>
+                            @foreach($contacts as $contact)
+                                <option value="{{ $contact->id }}">{{ $contact->title }}</option>
+                            @endforeach
+                        </select>
+                        <div class="text-sm text-info">
+                            При подключении к контакту данные синхронизируются.
+                        </div>
+                        <x-tt::form.error name="contactId"/>
+                    @endisset
+                </div>
+            @endif
+
             <div>
                 <label for="clinicName" class="inline-block mb-2">
                     Название клиники
@@ -89,25 +108,6 @@
                 </div>
                 <x-tt::form.error name="clinicId"/>
             </div>
-
-            @if (config("contact-page"))
-                <div>
-                    <div class="inline-block mb-2">Контакт</div>
-                    @isset($contacts)
-                        <select class="form-select {{ $errors->has('contactId') ? 'border-danger' : '' }}"
-                                wire:model="contactId">
-                            <option value="">Выберите...</option>
-                            @foreach($contacts as $contact)
-                                <option value="{{ $contact->id }}">{{ $contact->title }}</option>
-                            @endforeach
-                        </select>
-                        <div class="text-sm text-info">
-                            При подключении к контакту данные синхронизируются.
-                        </div>
-                        <x-tt::form.error name="contactId"/>
-                    @endisset
-                </div>
-            @endif
 
             <div class="flex items-center space-x-indent-half">
                 <button type="button" class="btn btn-outline-dark" wire:click="closeData">

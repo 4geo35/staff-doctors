@@ -2,10 +2,18 @@
 
 namespace GIS\StaffDoctors;
 
+use GIS\ContactPage\Events\ContactDeleted;
+use GIS\ContactPage\Events\ContactUpdated;
+use GIS\StaffDoctors\Helpers\ClinicActionsManager;
+use GIS\StaffDoctors\Listeners\DisassociateClinicContactAfterDelete;
+use GIS\StaffDoctors\Listeners\FreshClinicAfterContactUpdate;
+use GIS\StaffDoctors\Models\Clinic;
 use GIS\StaffDoctors\Models\DoctorInfo;
+use GIS\StaffDoctors\Observers\ClinicObserver;
 use GIS\StaffDoctors\Observers\DoctorInfoObserver;
 use GIS\StaffDoctors\View\Components\DoctorInfoComponent;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use GIS\StaffDoctors\Livewire\Admin\Doctors\CertificatesWire as AdminCertificatesWire;
 use GIS\StaffDoctors\Livewire\Admin\Doctors\EducationWire as AdminEducationWire;
@@ -23,6 +31,8 @@ class StaffDoctorsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/staff-doctors.php', 'staff-doctors');
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+
+        $this->initFacades();
     }
 
     public function boot(): void
@@ -32,6 +42,8 @@ class StaffDoctorsServiceProvider extends ServiceProvider
         $this->expandConfiguration();
         $this->observeModels();
 
+        $this->listenEvents();
+
         $this->addLivewireComponents();
         $this->addBladeComponents();
     }
@@ -40,6 +52,10 @@ class StaffDoctorsServiceProvider extends ServiceProvider
     {
         $modelClass = config("staff-doctors.customDoctorInfoModel") ?? DoctorInfo::class;
         $observerClass = config("staff-doctors.customDoctorInfoModelObserver") ?? DoctorInfoObserver::class;
+        $modelClass::observe($observerClass);
+
+        $modelClass = config("staff-doctors.customClinicModel") ?? Clinic::class;
+        $observerClass = config("staff-doctors.customClinicModelObserver") ?? ClinicObserver::class;
         $modelClass::observe($observerClass);
     }
 
@@ -94,5 +110,24 @@ class StaffDoctorsServiceProvider extends ServiceProvider
             "key" => $sd["clinicPolicyKey"],
         ];
         app()->config["user-management.permissions"] = $permissions;
+    }
+
+    protected function initFacades(): void
+    {
+        $this->app->singleton("clinic-actions", function () {
+            $managerClass = config("staff-doctors.customClinicActionsManager") ?? ClinicActionsManager::class;
+            return new $managerClass();
+        });
+    }
+
+    protected function listenEvents(): void
+    {
+        if (config("contact-page")) {
+            $listenerClass = config("staff-doctors.customFreshClinicAfterContactUpdateListener") ?? FreshClinicAfterContactUpdate::class;
+            Event::listen(ContactUpdated::class, $listenerClass);
+
+            $listenerClass = config("staff-doctors.customDisassociateClinicContactAfterDeleteListener") ?? DisassociateClinicContactAfterDelete::class;
+            Event::listen(ContactDeleted::class, $listenerClass);
+        }
     }
 }
