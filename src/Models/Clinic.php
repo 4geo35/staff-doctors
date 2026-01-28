@@ -6,6 +6,7 @@ use GIS\ContactPage\Models\Contact;
 use GIS\StaffDoctors\Interfaces\ClinicInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Clinic extends Model implements ClinicInterface
 {
@@ -27,5 +28,11 @@ class Clinic extends Model implements ClinicInterface
         } else {
             return new BelongsTo($this->newQuery(), $this, "", "", "");
         }
+    }
+
+    public function offers(): HasMany
+    {
+        $modelClass = config("staff-doctors.customDoctorOfferModel") ?? DoctorOffer::class;
+        return $this->hasMany($modelClass, "service_id");
     }
 }

@@ -9,8 +9,10 @@ use GIS\StaffDoctors\Listeners\DisassociateClinicContactAfterDelete;
 use GIS\StaffDoctors\Listeners\FreshClinicAfterContactUpdate;
 use GIS\StaffDoctors\Models\Clinic;
 use GIS\StaffDoctors\Models\DoctorInfo;
+use GIS\StaffDoctors\Models\DoctorOffer;
 use GIS\StaffDoctors\Observers\ClinicObserver;
 use GIS\StaffDoctors\Observers\DoctorInfoObserver;
+use GIS\StaffDoctors\Observers\DoctorOfferObserver;
 use GIS\StaffDoctors\View\Components\DoctorInfoComponent;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
@@ -57,6 +59,10 @@ class StaffDoctorsServiceProvider extends ServiceProvider
 
         $modelClass = config("staff-doctors.customClinicModel") ?? Clinic::class;
         $observerClass = config("staff-doctors.customClinicModelObserver") ?? ClinicObserver::class;
+        $modelClass::observe($observerClass);
+
+        $modelClass = config("staff-doctors.customDoctorOfferModel") ?? DoctorOffer::class;
+        $observerClass = config("staff-doctors.customDoctorOfferModelObserver") ?? DoctorOfferObserver::class;
         $modelClass::observe($observerClass);
     }
 

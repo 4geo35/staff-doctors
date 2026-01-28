@@ -10,6 +10,7 @@ use Illuminate\Contracts\Support\CanBeEscapedWhenCastToString;
 use Illuminate\Contracts\Support\Jsonable;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use JsonSerializable;
 use Stringable;
 
@@ -17,4 +18,5 @@ interface ClinicInterface extends Arrayable, ArrayAccess, CanBeEscapedWhenCastTo
     HasBroadcastChannel, Jsonable, JsonSerializable, QueueableEntity, Stringable, UrlRoutable
 {
     public function contact(): BelongsTo;
+    public function offers(): HasMany;
 }

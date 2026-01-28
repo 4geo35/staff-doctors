@@ -16,6 +16,11 @@ return [
 
     "customDoctorServiceModel" => null,
 
+    "customDoctorOfferModel" => null,
+    "customDoctorOfferModelObserver" => null,
+
+    "customDoctorOfferPriceModel" => null,
+
     // Controllers
     "customAdminClinicController" => null,
     "customAdminDoctorServiceController" => null,

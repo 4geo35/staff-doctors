@@ -9,12 +9,16 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\CanBeEscapedWhenCastToString;
 use Illuminate\Contracts\Support\Jsonable;
 use ArrayAccess;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use JsonSerializable;
 use Stringable;
 
-interface DoctorServiceInterface extends Arrayable, ArrayAccess, CanBeEscapedWhenCastToString,
+interface DoctorOfferInterface extends Arrayable, ArrayAccess, CanBeEscapedWhenCastToString,
     HasBroadcastChannel, Jsonable, JsonSerializable, QueueableEntity, Stringable, UrlRoutable
 {
-    public function offers(): HasMany;
+    public function prices(): HasMany;
+    public function service(): BelongsTo;
+    public function clinic(): BelongsTo;
+    public function department(): BelongsTo;
 }

@@ -99,7 +99,13 @@ trait DoctorServiceEditActions
         $modelObject = $this->findModel();
         if (! $modelObject) { return; }
         if (! $this->checkAuth("delete", $modelObject)) { return; }
-        // TODO: check offers?
+
+        if ($modelObject->offers()->count() > 0) {
+            session()->flash("error", "Невозможно удалить услугу, есть предложения");
+            $this->closeDelete();
+            return;
+        }
+
         try {
             $modelObject->delete();
         } catch (\Exception $exception) {
