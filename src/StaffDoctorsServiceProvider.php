@@ -127,6 +127,11 @@ class StaffDoctorsServiceProvider extends ServiceProvider
             "title" => $sd["servicePolicyTitle"],
             "key" => $sd["servicePolicyKey"],
         ];
+        $permissions[] = [
+            "policy" => $sd["offerPolicy"],
+            "title" => $sd["offerPolicyTitle"],
+            "key" => $sd["offerPolicyKey"],
+        ];
         app()->config["user-management.permissions"] = $permissions;
     }
 

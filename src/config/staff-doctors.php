@@ -24,6 +24,7 @@ return [
     // Controllers
     "customAdminClinicController" => null,
     "customAdminDoctorServiceController" => null,
+    "customAdminDoctorOfferController" => null,
 
     // Listeners
     "customFreshClinicAfterContactUpdateListener" => null,
@@ -51,4 +52,8 @@ return [
     "servicePolicy" => \GIS\StaffDoctors\Policies\DoctorServicePolicy::class,
     "servicePolicyTitle" => "Управление услугами врача",
     "servicePolicyKey" => "doctor_services",
+
+    "offerPolicy" => \GIS\StaffDoctors\Policies\DoctorOfferPolicy::class,
+    "offerPolicyTitle" => "Управление предложениями врачей",
+    "offerPolicyKey" => "doctor_offers",
 ];

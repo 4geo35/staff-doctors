@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use GIS\StaffDoctors\Http\Controllers\Admin\ClinicController;
 use GIS\StaffDoctors\Http\Controllers\Admin\DoctorServiceController;
+use GIS\StaffDoctors\Http\Controllers\Admin\DoctorOfferController;
 
 Route::middleware(["web", "auth", "app-management"])
     ->prefix("admin")
@@ -19,6 +20,13 @@ Route::middleware(["web", "auth", "app-management"])
             ->as("doctor-services.")
             ->group(function () {
                 $controllerClass = config("staff-doctors.customAdminDoctorServiceController") ?? DoctorServiceController::class;
+                Route::get("/", [$controllerClass, "index"])->name("index");
+            });
+
+        Route::prefix("doctor-offers")
+            ->as("doctor-offers.")
+            ->group(function () {
+                $controllerClass = config("staff-doctors.customAdminDoctorOfferController") ?? DoctorOfferController::class;
                 Route::get("/", [$controllerClass, "index"])->name("index");
             });
     });

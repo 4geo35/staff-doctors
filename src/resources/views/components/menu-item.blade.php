@@ -15,3 +15,13 @@
         Услуги
     </x-tt::admin-menu.item>
 @endcan
+
+
+@can("viewAny", config("staff-doctors.customDoctorOfferModel") ?? \GIS\StaffDoctors\Models\DoctorOffer::class)
+    <x-tt::admin-menu.item
+        href="{{ route('admin.doctor-offers.index') }}"
+        :active="in_array(Route::currentRouteName(), ['admin.doctor-offers.index'])">
+        <x-slot name="ico"><x-sd::ico.offer /></x-slot>
+        Предложения
+    </x-tt::admin-menu.item>
+@endcan
