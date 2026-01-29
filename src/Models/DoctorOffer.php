@@ -3,6 +3,7 @@
 namespace GIS\StaffDoctors\Models;
 
 use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
+use GIS\StaffPages\Models\Employee;
 use GIS\StaffPages\Models\EmployeeDepartment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class DoctorOffer extends Model implements DoctorOfferInterface
 {
     protected $fillable = [
+        "doctor_id",
         "service_id",
         "clinic_id",
         "department_id",
@@ -30,6 +32,12 @@ class DoctorOffer extends Model implements DoctorOfferInterface
         return $this->hasMany($modelClass, "offer_id");
     }
 
+    public function doctor(): BelongsTo
+    {
+        $modelClass = config("staff-pages.customEmployeeModel") ?? Employee::class;
+        return $this->belongsTo($modelClass, "doctor_id");
+    }
+
     public function service(): BelongsTo
     {
         $modelClass = config("staff-doctors.customDoctorServiceModel") ?? DoctorService::class;
@@ -46,5 +54,24 @@ class DoctorOffer extends Model implements DoctorOfferInterface
     {
         $modelClass = config("staff-pages.customDepartmentModel") ?? EmployeeDepartment::class;
         return $this->belongsTo($modelClass, "department_id");
+    }
+
+    public function getDoctorIsActiveAttribute(): bool
+    {
+        return (bool) $this->doctor->published_at;
+    }
+
+    public function getPriceIsActive(): bool
+    {
+        $activePrice = $this->prices()
+            ->select("id", "published_at")
+            ->whereNotNull("published_at")
+            ->first();
+        if ($activePrice) { return true; } else { return false; }
+    }
+
+    public function getIsActiveAttribute(): bool
+    {
+        return $this->doctor_is_active && $this->price_is_active;
     }
 }

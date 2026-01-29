@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('doctor_offers', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger("service_id");
+            $table->unsignedBigInteger("doctor_id");
             $table->unsignedBigInteger("clinic_id");
+            $table->unsignedBigInteger("service_id");
             $table->unsignedBigInteger("department_id");
 
             $table->dateTime("oms")->nullable();
@@ -25,6 +26,8 @@ return new class extends Migration
             $table->dateTime("house_call")->nullable();
             $table->dateTime("telemedicine")->nullable();
             $table->dateTime("is_base_service")->nullable();
+
+            $table->dateTime("published_at")->nullable();
 
             $table->timestamps();
         });
