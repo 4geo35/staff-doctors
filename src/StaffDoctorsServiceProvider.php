@@ -5,6 +5,7 @@ namespace GIS\StaffDoctors;
 use GIS\ContactPage\Events\ContactDeleted;
 use GIS\ContactPage\Events\ContactUpdated;
 use GIS\StaffDoctors\Helpers\ClinicActionsManager;
+use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffDoctors\Listeners\DisassociateClinicContactAfterDelete;
 use GIS\StaffDoctors\Listeners\FreshClinicAfterContactUpdate;
 use GIS\StaffDoctors\Models\Clinic;
@@ -24,6 +25,7 @@ use GIS\StaffDoctors\Livewire\Admin\Doctors\JobsWire as AdminJobsWire;
 use GIS\StaffDoctors\Livewire\Admin\Clinics\IndexWire as AdminClinicsIndexWire;
 use GIS\StaffDoctors\Livewire\Admin\DoctorServices\IndexWire as AdminDoctorServicesIndexWire;
 use GIS\StaffDoctors\Livewire\Admin\DoctorOffers\IndexWire as AdminDoctorOffersIndexWire;
+use GIS\StaffDoctors\Livewire\Admin\DoctorOffers\ShowWire as AdminDoctorOffersShowWire;
 use Livewire\Livewire;
 
 class StaffDoctorsServiceProvider extends ServiceProvider
@@ -36,6 +38,7 @@ class StaffDoctorsServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
 
+        $this->bindInterfaces();
         $this->initFacades();
     }
 
@@ -111,10 +114,16 @@ class StaffDoctorsServiceProvider extends ServiceProvider
             $component ?? AdminDoctorServicesIndexWire::class
         );
 
-        $component = config("staff-doctors.customAdminDoctorOfferComponent");
+        $component = config("staff-doctors.customAdminDoctorOfferIndexComponent");
         Livewire::component(
             "sd-admin-doctor-offers",
             $component ?? AdminDoctorOffersIndexWire::class
+        );
+
+        $component = config("staff-doctors.customAdminDoctorOfferShowComponent");
+        Livewire::component(
+            "sd-admin-doctor-offers-show",
+            $component ?? AdminDoctorOffersShowWire::class
         );
     }
 
@@ -159,5 +168,11 @@ class StaffDoctorsServiceProvider extends ServiceProvider
             $listenerClass = config("staff-doctors.customDisassociateClinicContactAfterDeleteListener") ?? DisassociateClinicContactAfterDelete::class;
             Event::listen(ContactDeleted::class, $listenerClass);
         }
+    }
+
+    protected function bindInterfaces(): void
+    {
+        $modelClass = config("staff-doctors.customDoctorOfferModel") ?? DoctorOffer::class;
+        $this->app->bind(DoctorOfferInterface::class, $modelClass);
     }
 }

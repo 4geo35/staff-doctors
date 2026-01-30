@@ -4,6 +4,10 @@
                wire:model.live="searchLastName">
         <input type="text" aria-label="Наименование услуги" placeholder="Наименование услуги" class="form-control"
                wire:model.live="searchServiceTitle">
+        <input type="text" aria-label="Название клиники" placeholder="Название клиники" class="form-control"
+               wire:model.live="searchClinicName">
+        <input type="text" aria-label="Специальность (Отдел)" placeholder="Специальность (Отдел)" class="form-control"
+               wire:model.live="searchDepartmentTitle">
         <button type="button" class="btn btn-outline-primary" wire:click="clearSearch">
             Очистить
         </button>

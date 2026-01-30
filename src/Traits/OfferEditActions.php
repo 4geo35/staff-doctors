@@ -115,6 +115,7 @@ trait OfferEditActions
 
         session()->flash("success", "Предложение успешно обновлено");
         $this->closeData();
+        if (isset($this->offer)) { $this->offer = $modelObject; }
     }
 
     public function closeDelete(): void
@@ -149,6 +150,7 @@ trait OfferEditActions
 
         session()->flash("success", "Предложение успешно удалено");
         $this->closeDelete();
+        if (isset($this->offer)) { $this->redirectRoute("admin.doctor-offers.index"); }
     }
 
     protected function setServiceList(): void

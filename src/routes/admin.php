@@ -28,5 +28,6 @@ Route::middleware(["web", "auth", "app-management"])
             ->group(function () {
                 $controllerClass = config("staff-doctors.customAdminDoctorOfferController") ?? DoctorOfferController::class;
                 Route::get("/", [$controllerClass, "index"])->name("index");
+                Route::get("/{offer}", [$controllerClass, "show"])->name("show");
             });
     });

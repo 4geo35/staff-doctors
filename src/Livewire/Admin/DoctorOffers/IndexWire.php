@@ -14,6 +14,8 @@ class IndexWire extends Component
 
     public string $searchLastName = '';
     public string $searchServiceTitle = "";
+    public string $searchClinicName = "";
+    public string $searchDepartmentTitle = "";
 
     public function render(): View
     {
@@ -22,9 +24,16 @@ class IndexWire extends Component
         $query->with("prices", "doctor", "service", "clinic", "department");
         BuilderActions::extendRelationLike($query, $this->searchLastName, "last_name", "doctor");
         BuilderActions::extendRelationLike($query, $this->searchServiceTitle, "title", "service");
+        BuilderActions::extendRelationLike($query, $this->searchClinicName, "name", "clinic");
+        BuilderActions::extendRelationLike($query, $this->searchDepartmentTitle, "title", "department");
         $query->orderBy("created_at", "DESC");
         $offers = $query->get();
         return view("sd::livewire.admin.doctor-offers.index-wire", compact("offers"));
+    }
+
+    public function clearSearch(): void
+    {
+        $this->reset("searchLastName", "searchServiceTitle", "searchClinicName", "searchDepartmentTitle");
     }
 
     public function showCreate(): void

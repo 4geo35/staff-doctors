@@ -56,6 +56,11 @@ class DoctorOffer extends Model implements DoctorOfferInterface
         return $this->belongsTo($modelClass, "department_id");
     }
 
+    public function getFeedIdAttribute(): string
+    {
+        return "offer_{$this->id}";
+    }
+
     public function getDoctorIsActiveAttribute(): bool
     {
         return (bool) $this->doctor->published_at;
@@ -72,6 +77,6 @@ class DoctorOffer extends Model implements DoctorOfferInterface
 
     public function getIsActiveAttribute(): bool
     {
-        return $this->doctor_is_active && $this->price_is_active;
+        return $this->doctor_is_active;
     }
 }
