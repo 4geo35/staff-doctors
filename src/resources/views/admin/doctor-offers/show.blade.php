@@ -4,5 +4,6 @@
 
     <div class="space-y-indent-half">
         <livewire:sd-admin-doctor-offers-show :$offer />
+        <livewire:sd-admin-doctor-offer-price-list :$offer />
     </div>
 </x-admin-layout>

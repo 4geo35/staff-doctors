@@ -45,6 +45,7 @@ return [
     "customAdminDoctorServicesComponent" => null,
     "customAdminDoctorOfferIndexComponent" => null,
     "customAdminDoctorOfferShowComponent" => null,
+    "customAdminDoctorOfferPriceListComponent" => null,
 
     // Policy
     "clinicPolicy" => \GIS\StaffDoctors\Policies\ClinicPolicy::class,

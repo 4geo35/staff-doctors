@@ -26,6 +26,7 @@ use GIS\StaffDoctors\Livewire\Admin\Clinics\IndexWire as AdminClinicsIndexWire;
 use GIS\StaffDoctors\Livewire\Admin\DoctorServices\IndexWire as AdminDoctorServicesIndexWire;
 use GIS\StaffDoctors\Livewire\Admin\DoctorOffers\IndexWire as AdminDoctorOffersIndexWire;
 use GIS\StaffDoctors\Livewire\Admin\DoctorOffers\ShowWire as AdminDoctorOffersShowWire;
+use GIS\StaffDoctors\Livewire\Admin\DoctorOfferPrices\ListWire as AdminDoctorOfferPricesListWire;
 use Livewire\Livewire;
 
 class StaffDoctorsServiceProvider extends ServiceProvider
@@ -124,6 +125,12 @@ class StaffDoctorsServiceProvider extends ServiceProvider
         Livewire::component(
             "sd-admin-doctor-offers-show",
             $component ?? AdminDoctorOffersShowWire::class
+        );
+
+        $component = config("staff-doctors.customAdminDoctorOfferPriceListComponent");
+        Livewire::component(
+            "sd-admin-doctor-offer-price-list",
+            $component ?? AdminDoctorOfferPricesListWire::class
         );
     }
 
