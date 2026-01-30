@@ -66,7 +66,7 @@ class DoctorOffer extends Model implements DoctorOfferInterface
         return (bool) $this->doctor->published_at;
     }
 
-    public function getPriceIsActive(): bool
+    public function getPriceIsActiveAttribute(): bool
     {
         $activePrice = $this->prices()
             ->select("id", "published_at")
