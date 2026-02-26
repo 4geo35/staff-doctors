@@ -12,6 +12,8 @@ class EmployeeController extends Controller
     public function doctor(EmployeeInterface $employee): View
     {
         $metas = MetaActions::renderByModel($employee);
-        return view("sd::web.employees.doctor", compact("employee", "metas"));
+        $info = $employee->doctorInfo;
+        $info->load("orderedEducation", "orderedJobs", "orderedCertificates");
+        return view("sd::web.employees.doctor", compact("employee", "metas", "info"));
     }
 }

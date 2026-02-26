@@ -62,4 +62,22 @@ class DoctorInfo extends Model implements DoctorInfoInterface
             ->orderBy("finish_year", "desc")
             ->orderBy("organization");
     }
+
+    public function getHumanExperienceYearsAttribute(): ?string
+    {
+        $value = $this->experience_years;
+        if (empty($value)) { return $value; }
+        $array = [
+            $value,
+            num2word($value, ["год", "года", "лет"]),
+        ];
+        return implode(" ", $array);
+    }
+
+    public function getHumanStartDateAttribute(): ?string
+    {
+        $value = $this->career_start_date;
+        if (empty($value)) { return $value; }
+        return date_helper()->format($value, "Y") . " г.";
+    }
 }
