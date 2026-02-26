@@ -1,6 +1,11 @@
 <?php
 
 return [
+    "doctorPrefix" => "",
+
+    // Btn text
+    "teaserBtnTitle" => "Подробнее",
+
     // Models
     "customDoctorInfoModel" => null,
     "customDoctorInfoModelObserver" => null,
@@ -25,6 +30,8 @@ return [
     "customAdminClinicController" => null,
     "customAdminDoctorServiceController" => null,
     "customAdminDoctorOfferController" => null,
+
+    "customWebEmployeeController" => null,
 
     // Listeners
     "customFreshClinicAfterContactUpdateListener" => null,

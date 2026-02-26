@@ -37,8 +37,6 @@ class StaffDoctorsServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__ . '/config/staff-doctors.php', 'staff-doctors');
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-
         $this->bindInterfaces();
         $this->initFacades();
     }
@@ -46,6 +44,9 @@ class StaffDoctorsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'sd');
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
         $this->expandConfiguration();
         $this->observeModels();
