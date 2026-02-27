@@ -75,8 +75,13 @@ class DoctorOffer extends Model implements DoctorOfferInterface
         if ($activePrice) { return true; } else { return false; }
     }
 
+    public function getDepartmentIsActiveAttribute(): bool
+    {
+        return (bool) $this->department->published_at;
+    }
+
     public function getIsActiveAttribute(): bool
     {
-        return $this->doctor_is_active;
+        return $this->doctor_is_active && $this->department_is_active;
     }
 }

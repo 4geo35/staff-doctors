@@ -14,6 +14,10 @@
                 @include("sd::web.employees.includes.info.education")
                 @include("sd::web.employees.includes.info.jobs")
                 @include("sd::web.employees.includes.info.certificates")
+                @if ($services->count())
+                    <livewire:sd-web-make-appointment :$employee :$services />
+                @endif
+                <div class="h-[300px]"></div>
             </div>
         </div>
     </div>

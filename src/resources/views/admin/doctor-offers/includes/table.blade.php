@@ -26,6 +26,9 @@
                                 @if (!$item->doctor_is_active)
                                     <div class="text-nowrap text-body text-sm">- Доктор снят с публикации</div>
                                 @endif
+                                @if (!$item->department_is_active)
+                                    <div class="text-nowrap text-body text-sm">- Специальность (Отдел) снята с публикации</div>
+                                @endif
                             </li>
                         @endif
                         @if (! $item->price_is_active)

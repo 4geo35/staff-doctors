@@ -5,9 +5,11 @@ namespace GIS\StaffDoctors;
 use GIS\ContactPage\Events\ContactDeleted;
 use GIS\ContactPage\Events\ContactUpdated;
 use GIS\StaffDoctors\Helpers\ClinicActionsManager;
+use GIS\StaffDoctors\Helpers\OfferActionsManager;
 use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffDoctors\Listeners\DisassociateClinicContactAfterDelete;
 use GIS\StaffDoctors\Listeners\FreshClinicAfterContactUpdate;
+use GIS\StaffDoctors\Livewire\Web\DoctorOffers\MakeAppointmentWire;
 use GIS\StaffDoctors\Models\Clinic;
 use GIS\StaffDoctors\Models\DoctorInfo;
 use GIS\StaffDoctors\Models\DoctorOffer;
@@ -133,6 +135,12 @@ class StaffDoctorsServiceProvider extends ServiceProvider
             "sd-admin-doctor-offer-price-list",
             $component ?? AdminDoctorOfferPricesListWire::class
         );
+
+        $component = config("staff-doctors.customWebDoctorOfferMakeAppointmentComponent");
+        Livewire::component(
+            "sd-web-make-appointment",
+            $component ?? MakeAppointmentWire::class
+        );
     }
 
     protected function expandConfiguration(): void
@@ -163,6 +171,11 @@ class StaffDoctorsServiceProvider extends ServiceProvider
     {
         $this->app->singleton("clinic-actions", function () {
             $managerClass = config("staff-doctors.customClinicActionsManager") ?? ClinicActionsManager::class;
+            return new $managerClass();
+        });
+
+        $this->app->singleton("doctor-offer-actions", function () {
+            $managerClass = config("staff-doctors.customOfferActionsManager") ?? OfferActionsManager::class;
             return new $managerClass();
         });
     }

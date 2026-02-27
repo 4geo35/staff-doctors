@@ -17,6 +17,16 @@ class IndexWire extends Component
     public string $searchClinicName = "";
     public string $searchDepartmentTitle = "";
 
+    public function queryString(): array
+    {
+        return [
+            'searchLastName' => ['except' => '', 'as' => 'last-name'],
+            'searchServiceTitle' => ['except' => '', 'as' => 'service-title'],
+            'searchClinicName' => ['except' => '', 'as' => 'clinic-name'],
+            'searchDepartmentTitle' => ['except' => '', 'as' => 'department-title'],
+        ];
+    }
+
     public function render(): View
     {
         $modelClass = config("staff-doctors.customDoctorOfferModel") ?? DoctorOffer::class;

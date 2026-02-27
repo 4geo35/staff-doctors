@@ -2,6 +2,7 @@
 
 return [
     "doctorPrefix" => "",
+    "serviceQueryKey" => "service",
 
     // Btn text
     "teaserBtnTitle" => "Подробнее",
@@ -39,6 +40,7 @@ return [
 
     // Facades
     "customClinicActionsManager" => null,
+    "customOfferActionsManager" => null,
 
     // Blade components
     "customAdminBladeDoctorInfoComponent" => null,
@@ -53,6 +55,8 @@ return [
     "customAdminDoctorOfferIndexComponent" => null,
     "customAdminDoctorOfferShowComponent" => null,
     "customAdminDoctorOfferPriceListComponent" => null,
+
+    "customWebDoctorOfferMakeAppointmentComponent" => null,
 
     // Policy
     "clinicPolicy" => \GIS\StaffDoctors\Policies\ClinicPolicy::class,
