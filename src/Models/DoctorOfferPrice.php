@@ -21,4 +21,20 @@ class DoctorOfferPrice extends Model implements DoctorOfferPriceInterface
         $modelClass = config("staff-doctors.customDoctorOfferModel") ?? DoctorOffer::class;
         return $this->belongsTo($modelClass, "offer_id");
     }
+
+    public function getHumanPriceAttribute(): string
+    {
+        if ($this->price - intval($this->price) > 0)
+            return number_format($this->price, 2, ",", " ");
+        else
+            return number_format($this->price, 0, ",", " ");
+    }
+
+    public function getHumanDiscountAttribute(): string
+    {
+        if ($this->discount - intval($this->discount) > 0)
+            return number_format($this->discount, 2, ",", " ");
+        else
+            return number_format($this->discount, 0, ",", " ");
+    }
 }

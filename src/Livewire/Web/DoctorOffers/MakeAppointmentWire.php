@@ -53,6 +53,11 @@ class MakeAppointmentWire extends Component
         $this->activeService = $slug;
     }
 
+    public function showOfferModal(int $offerId): void
+    {
+        debugbar()->info($offerId);
+    }
+
     protected function checkSlug(string $slug): bool
     {
         return (bool) $this->services->first(function ($service) use ($slug) {

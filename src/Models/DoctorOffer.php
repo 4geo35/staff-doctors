@@ -3,11 +3,13 @@
 namespace GIS\StaffDoctors\Models;
 
 use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
+use GIS\StaffDoctors\Interfaces\DoctorOfferPriceInterface;
 use GIS\StaffPages\Models\Employee;
 use GIS\StaffPages\Models\EmployeeDepartment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class DoctorOffer extends Model implements DoctorOfferInterface
 {
@@ -73,6 +75,13 @@ class DoctorOffer extends Model implements DoctorOfferInterface
             ->whereNotNull("published_at")
             ->first();
         if ($activePrice) { return true; } else { return false; }
+    }
+
+    public function getActivePriceAttribute(): ?DoctorOfferPriceInterface
+    {
+        return $this->prices()
+            ->whereNotNull("published_at")
+            ->first();
     }
 
     public function getDepartmentIsActiveAttribute(): bool
