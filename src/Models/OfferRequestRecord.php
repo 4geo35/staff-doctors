@@ -27,4 +27,12 @@ class OfferRequestRecord extends Model
         $modelClass = config("staff-pages.customEmployeeRequestRecordModel") ?? EmployeeRequestRecord::class;
         return $this->belongsTo($modelClass, "employee_request_id");
     }
+
+    public function getHumanPriceAttribute(): string
+    {
+        if ($this->price - intval($this->price) > 0)
+            return number_format($this->price, 2, ",", " ");
+        else
+            return number_format($this->price, 0, ",", " ");
+    }
 }
