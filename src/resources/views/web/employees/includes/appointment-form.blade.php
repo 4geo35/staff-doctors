@@ -49,7 +49,7 @@
         <textarea id="comment-employee-request"
                   class="form-control !min-h-52 {{ $errors->has('comment') ? 'border-danger' : '' }}"
                   rows="10" placeholder="Комментарий"
-                  wire:model.live="comment">
+                  wire:model="comment">
             {{ $comment }}
         </textarea>
         <x-tt::form.error name="comment"/>

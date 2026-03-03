@@ -2,11 +2,12 @@
 
 namespace GIS\StaffDoctors\Livewire\Web\DoctorOffers;
 
+use GIS\RequestForm\Facades\FormActions;
 use GIS\RequestForm\Interfaces\RequestFormModelInterface;
 use GIS\RequestForm\Interfaces\ShouldRequestFormInterface;
-use GIS\StaffDoctors\Facades\OfferActions;
 use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffPages\Interfaces\EmployeeInterface;
+use GIS\StaffPages\Models\EmployeeRequestRecord;
 use Illuminate\View\View;
 use Livewire\Component;
 use Illuminate\Support\Collection as IlluminateCollection;
@@ -31,6 +32,24 @@ class MakeAppointmentWire extends Component
     public string $phone = "";
     public string $comment = "";
     public bool $privacy = true;
+
+    public function rules(): array
+    {
+        return FormActions::prepareValidation([
+            "name" => ["required", "string", "max:50"],
+            "phone" => ["required", "string", "max:18", "min:18"],
+            "privacy" => ["required"],
+        ]);
+    }
+
+    public function validationAttributes(): array
+    {
+        return [
+            "name" => "Имя",
+            "phone" => "Номер телефона",
+            "privacy" => "Политика конфиденциальности",
+        ];
+    }
 
     public function queryString(): array
     {
@@ -76,6 +95,43 @@ class MakeAppointmentWire extends Component
         });
         if (! $this->currentOffer) { return; }
         $this->displayForm = true;
+    }
+
+    public function store(): void
+    {
+        $this->validate();
+        try {
+            $modelClass = config("staff-pages.customEmployeeRequestRecordModel") ?? EmployeeRequestRecord::class;
+            $record = $modelClass::create([
+                "fio" => $this->employee->fio,
+                "name" => $this->name,
+                "phone" => $this->phone,
+                "comment" => $this->comment,
+            ]);
+            $record->offer()->create([
+                "offer_id" => $this->currentOffer->id,
+                "clinic_title" => $this->currentOffer->clinic->name,
+                "service_title" => $this->currentOffer->service->title,
+                "department_title" => $this->currentOffer->department->title,
+                "price" => $this->currentOffer->active_price ? $this->currentOffer->active_price->price : null,
+            ]);
+            $form = $this->createForm($record);
+            if (! $form) {
+                $record->delete();
+                session()->flash("error", "Ошибка при сохранении данных");
+            } else {
+                session()->flash("success", "Ваше обращение получено! Мы свяжемся с вами в ближайшее время.");
+            }
+        } catch (\Exception $exception) {
+            session()->flash("error", "Ошибка при сохранении данных.");
+        }
+
+        $this->resetFields();
+    }
+
+    public function resetFields(): void
+    {
+        $this->reset("name", "phone", "comment", "privacy");
     }
 
     protected function checkSlug(string $slug): bool
