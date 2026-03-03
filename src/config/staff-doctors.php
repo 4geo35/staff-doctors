@@ -8,7 +8,7 @@ return [
     "teaserBtnTitle" => "Подробнее",
 
     // Forms
-    "customDoctorRequestRecordModel" => null,
+    "customOfferRequestRecordModel" => null,
 
     // Models
     "customDoctorInfoModel" => null,

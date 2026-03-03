@@ -11,5 +11,9 @@ class DoctorOfferObserver
         foreach ($offer->prices as $price) {
             $price->delete();
         }
+        foreach ($offer->requests as $request) {
+            $request->offer()->dissociate();
+            $request->save();
+        }
     }
 }

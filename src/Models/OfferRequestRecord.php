@@ -6,7 +6,7 @@ use GIS\StaffPages\Models\EmployeeRequestRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DoctorRequestRecord extends Model
+class OfferRequestRecord extends Model
 {
     protected $fillable = [
         "offer_id",

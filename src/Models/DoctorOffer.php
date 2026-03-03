@@ -58,6 +58,12 @@ class DoctorOffer extends Model implements DoctorOfferInterface
         return $this->belongsTo($modelClass, "department_id");
     }
 
+    public function requests(): HasMany
+    {
+        $modelClass = config("staff-doctors.customOfferRequestRecordModel") ?? OfferRequestRecord::class;
+        return $this->hasMany($modelClass, "offer_id");
+    }
+
     public function getFeedIdAttribute(): string
     {
         return "offer_{$this->id}";

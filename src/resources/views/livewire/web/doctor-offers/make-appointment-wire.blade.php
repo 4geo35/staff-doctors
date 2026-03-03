@@ -24,6 +24,8 @@
                     </div>
                 @endforeach
             </div>
+
+            @include("sd::web.employees.includes.appointment-modal")
         @else
             <div>Нет доступных приемов</div>
         @endif

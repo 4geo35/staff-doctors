@@ -21,4 +21,5 @@ interface DoctorOfferInterface extends Arrayable, ArrayAccess, CanBeEscapedWhenC
     public function service(): BelongsTo;
     public function clinic(): BelongsTo;
     public function department(): BelongsTo;
+    public function requests(): HasMany;
 }
