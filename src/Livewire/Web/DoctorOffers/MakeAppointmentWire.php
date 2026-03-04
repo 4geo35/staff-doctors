@@ -9,6 +9,7 @@ use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffPages\Interfaces\EmployeeInterface;
 use GIS\StaffPages\Models\EmployeeRequestRecord;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Collection as IlluminateCollection;
 
@@ -19,6 +20,7 @@ class MakeAppointmentWire extends Component
     public IlluminateCollection $services;
     public object|null $firstService = null;
     public string $activeService = "";
+    public string $activeOffer = "";
 
     public IlluminateCollection|null $offers = null;
     public DoctorOfferInterface|null $currentOffer  = null;
@@ -59,6 +61,10 @@ class MakeAppointmentWire extends Component
                 "except" => $firstService?->slug,
                 "as" => config("staff-doctors.serviceQueryKey")
             ],
+            "activeOffer" => [
+                "except" => "",
+                "as" => config("staff-doctors.offerQueryKey")
+            ]
         ];
     }
 
@@ -71,7 +77,6 @@ class MakeAppointmentWire extends Component
             }
         }
         $this->setOffersByActive();
-
         $this->uri = url()->current();
     }
 
@@ -86,6 +91,16 @@ class MakeAppointmentWire extends Component
         if (! $this->checkSlug($slug)) { return; }
         $this->activeService = $slug;
         $this->setOffersByActive();
+    }
+
+    #[On('show-appointment-form-by-active')]
+    public function showModalByActiveOffer(): void
+    {
+        if (empty($this->activeOffer)) { return; }
+        $id = str_replace(config("staff-doctors.offerFeedPrefix") . "_", "", $this->activeOffer);
+        debugbar()->info($id);
+        if (! is_numeric($id)) { return; }
+        $this->showOfferModal($id);
     }
 
     public function showOfferModal(int $offerId): void

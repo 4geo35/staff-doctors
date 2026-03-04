@@ -3,6 +3,8 @@
 return [
     "doctorPrefix" => "",
     "serviceQueryKey" => "service",
+    "offerQueryKey" => "offer",
+    "offerFeedPrefix" => "offer",
 
     // Btn text
     "teaserBtnTitle" => "Подробнее",

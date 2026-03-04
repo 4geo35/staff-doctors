@@ -1,4 +1,7 @@
 <div id="make-appointment" class="mt-indent-lg {{ !$services->count() ? 'hidden' : '' }}">
+    @if (!empty($activeOffer))
+        <div class="hidden" x-data x-init="$dispatch('show-appointment-form-by-active')"></div>
+    @endif
     @if ($services->count())
         <x-tt::h2 class="mb-indent">Записаться на прием</x-tt::h2>
 

@@ -66,7 +66,7 @@ class DoctorOffer extends Model implements DoctorOfferInterface
 
     public function getFeedIdAttribute(): string
     {
-        return "offer_{$this->id}";
+        return config("staff-doctors.offerFeedPrefix") . "_{$this->id}";
     }
 
     public function getDoctorIsActiveAttribute(): bool
