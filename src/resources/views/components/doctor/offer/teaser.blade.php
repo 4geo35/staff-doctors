@@ -1,13 +1,13 @@
 @props(["offer"])
-<div class="flex flex-col h-full p-indent border border-stroke rounded-base space-y-indent">
+<div class="flex flex-col h-full p-indent-half sm:p-indent border border-stroke rounded-base space-y-indent-half sm:space-y-indent">
     <div class="flex-auto">
-        <div class="mb-indent">
+        <div class="mb-indent-half sm:mb-indent">
             <x-tt::h3>{{ $offer->clinic->name }}</x-tt::h3>
             @if ($offer->clinic->address)
                 <div class="mt-indent-xs text-lg font-semibold">{{ $offer->clinic->address }}</div>
             @endif
         </div>
-        <div class="inline-flex items-center justify-center h-7.5 px-indent-xs mb-indent bg-light rounded-base text-sm font-medium">
+        <div class="inline-flex items-center justify-center h-7.5 px-indent-xs mb-indent-half sm:mb-indent bg-light rounded-base text-sm font-medium">
             {{ $offer->department->title }}
         </div>
         <div class="space-y-indent-xs">
@@ -23,9 +23,9 @@
         @php($price = $offer->active_price)
         @if ($price)
             <div class="space-y-indent-xs">
-                <div class="flex items-center justify-between">
-                    <div class="text-h3-mobile sm:text-h3 font-semibold">{{ $price->human_price }}₽</div>
-                    <button type="button" class="btn btn-sm btn-primary h-10"
+                <div class="flex flex-wrap xs:flex-nowrap items-center justify-between">
+                    <div class="text-h3 font-semibold text-nowrap">{{ $price->human_price }}₽</div>
+                    <button type="button" class="btn btn-sm btn-primary h-10 hidden xs:flex"
                             wire:loading.attr="disabled"
                             wire:click="showOfferModal({{ $offer->id }})">
                         Записаться на прием
@@ -41,6 +41,11 @@
                         Бесплатный прием, {{ $price->free_condition }}
                     </div>
                 @endif
+                <button type="button" class="btn btn-sm btn-primary h-10 xs:hidden w-full"
+                        wire:loading.attr="disabled"
+                        wire:click="showOfferModal({{ $offer->id }})">
+                    Записаться на прием
+                </button>
             </div>
         @else
             <button type="button" class="btn btn-sm btn-primary h-10 w-full"

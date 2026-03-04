@@ -19,7 +19,7 @@
         @if ($offers)
             <div class="row">
                 @foreach($offers as $offer)
-                    <div class="col w-full md:w-1/2 mb-indent">
+                    <div class="col w-full lg:w-1/2 mb-indent">
                         <x-sd::doctor.offer.teaser :$offer />
                     </div>
                 @endforeach
