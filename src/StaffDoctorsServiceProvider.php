@@ -9,6 +9,7 @@ use GIS\StaffDoctors\Helpers\OfferActionsManager;
 use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffDoctors\Listeners\DisassociateClinicContactAfterDelete;
 use GIS\StaffDoctors\Listeners\FreshClinicAfterContactUpdate;
+use GIS\StaffDoctors\Livewire\Admin\Forms\OfferRequestTableWire;
 use GIS\StaffDoctors\Livewire\Web\DoctorOffers\MakeAppointmentWire;
 use GIS\StaffDoctors\Models\Clinic;
 use GIS\StaffDoctors\Models\DoctorInfo;
@@ -140,6 +141,12 @@ class StaffDoctorsServiceProvider extends ServiceProvider
         Livewire::component(
             "sd-web-make-appointment",
             $component ?? MakeAppointmentWire::class
+        );
+
+        $component = config("staff-doctors.customAdminOfferFormTableComponent");
+        Livewire::component(
+            "sd-admin-offer-form-table",
+            $component ?? OfferRequestTableWire::class
         );
     }
 

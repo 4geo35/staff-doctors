@@ -9,6 +9,7 @@ return [
 
     // Forms
     "customOfferRequestRecordModel" => null,
+    "customAdminOfferFormTableComponent" => null,
 
     // Models
     "customDoctorInfoModel" => null,
