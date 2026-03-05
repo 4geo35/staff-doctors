@@ -153,6 +153,19 @@ trait OfferEditActions
         if (isset($this->offer)) { $this->redirectRoute("admin.doctor-offers.index"); }
     }
 
+    public function switchPublish(int $modelId): void
+    {
+        $this->resetFields();
+        $this->offerId = $modelId;
+        $model = $this->findModel();
+        if (! $model) { return; }
+        if (! $this->checkAuth("update", $model)) { return; }
+        $model->update([
+            "published_at" => $model->published_at ? null : now(),
+        ]);
+        if (isset($this->offer)) { $this->offer = $model; }
+    }
+
     protected function setServiceList(): void
     {
         $modelClass = config("staff-doctors.customDoctorServiceModel") ?? DoctorService::class;

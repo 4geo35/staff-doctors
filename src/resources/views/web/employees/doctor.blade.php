@@ -4,7 +4,8 @@
     @include("sd::web.employees.includes.h1")
 
     <div class="container mb-indent-lg">
-        <x-sp::employee.teaser :$employee :on-full-page="true" :is-full-page="true" anchor="make-appointment" />
+        @php($anchor = $services->count() ? "make-appointment" : "")
+        <x-sp::employee.teaser :$employee :on-full-page="true" :is-full-page="true" :$anchor />
     </div>
 
     <div class="container">

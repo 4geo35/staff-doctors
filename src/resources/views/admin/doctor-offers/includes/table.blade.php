@@ -23,6 +23,9 @@
                         @else
                             <li class="text-danger">
                                 Недоступно
+                                @if (! $item->published_at)
+                                    <div class="text-nowrap text-body text-sm">- Не опубликовано</div>
+                                @endif
                                 @if (!$item->doctor_is_active)
                                     <div class="text-nowrap text-body text-sm">- Доктор снят с публикации</div>
                                 @endif
@@ -66,6 +69,19 @@
                                     disabled
                                 @endif>
                             <x-tt::ico.trash/>
+                        </button>
+
+                        <button type="button"
+                                class="btn {{ $item->published_at ? 'btn-success' : 'btn-danger' }} px-btn-x-ico ml-indent-half"
+                                @cannot("update", $item) disabled
+                                @else wire:loading.attr="disabled"
+                                @endcannot
+                                wire:click="switchPublish({{ $item->id }})">
+                            @if ($item->published_at)
+                                <x-tt::ico.toggle-on/>
+                            @else
+                                <x-tt::ico.toggle-off/>
+                            @endif
                         </button>
                     </div>
                 </td>

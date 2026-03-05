@@ -26,6 +26,8 @@ class DoctorOffer extends Model implements DoctorOfferInterface
         "house_call",
         "telemedicine",
         "is_base_service",
+
+        "published_at",
     ];
 
     public function prices(): HasMany
@@ -97,6 +99,6 @@ class DoctorOffer extends Model implements DoctorOfferInterface
 
     public function getIsActiveAttribute(): bool
     {
-        return $this->doctor_is_active && $this->department_is_active;
+        return $this->doctor_is_active && $this->department_is_active && $this->published_at;
     }
 }

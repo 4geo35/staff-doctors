@@ -4,6 +4,7 @@ namespace GIS\StaffDoctors\Helpers;
 
 use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffDoctors\Interfaces\DoctorServiceInterface;
+use GIS\StaffDoctors\Models\DoctorOffer;
 use GIS\StaffPages\Interfaces\EmployeeInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as IlluminateCollection;
@@ -16,12 +17,24 @@ class OfferActionsManager
         return $this->splitByServices($offers);
     }
 
-    protected function getOnlyActive(EmployeeInterface $employee): Collection
+    public function getOnlyActive(EmployeeInterface $employee = null): Collection
     {
-        return $employee->offers()
-            ->with("prices", "service", "clinic", "department")
-            ->whereHas("department", fn($q) => $q->whereNotNull("published_at"))
-            ->get();
+        if (! empty($employee)) {
+            $query = $employee->offers();
+        } else {
+            $modelClass = config("staff-doctors.customDoctorOfferModel") ?? DoctorOffer::class;
+            $query = $modelClass::query();
+        }
+        $query->with("prices", "service", "clinic", "department");
+
+        $query->whereNotNull("published_at");
+        $query->whereHas("department", fn($q) => $q->whereNotNull("published_at"));
+
+        if (empty($employee)) {
+            $query->whereHas("doctor", fn($q) => $q->whereNotNull("published_at"));
+        }
+
+        return $query->get();
     }
 
     protected function getServiceList(Collection $offers): IlluminateCollection

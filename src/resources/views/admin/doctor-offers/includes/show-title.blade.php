@@ -18,5 +18,18 @@
                 wire:click="showDelete({{ $offer->id }})">
             <x-tt::ico.trash/>
         </button>
+
+        <button type="button"
+                class="btn {{ $offer->published_at ? 'btn-success' : 'btn-danger' }} px-btn-x-ico ml-indent-half"
+                @cannot("update", $offer) disabled
+                @else wire:loading.attr="disabled"
+                @endcannot
+                wire:click="switchPublish({{ $offer->id }})">
+            @if ($offer->published_at)
+                <x-tt::ico.toggle-on/>
+            @else
+                <x-tt::ico.toggle-off/>
+            @endif
+        </button>
     </div>
 </div>
