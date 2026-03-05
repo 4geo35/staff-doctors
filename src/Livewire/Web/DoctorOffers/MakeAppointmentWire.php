@@ -98,9 +98,14 @@ class MakeAppointmentWire extends Component
     {
         if (empty($this->activeOffer)) { return; }
         $id = str_replace(config("staff-doctors.offerFeedPrefix") . "_", "", $this->activeOffer);
-        debugbar()->info($id);
         if (! is_numeric($id)) { return; }
         $this->showOfferModal($id);
+    }
+
+    public function closeForm(): void
+    {
+        $this->resetFields();
+        $this->displayForm = false;
     }
 
     public function showOfferModal(int $offerId): void

@@ -1,4 +1,7 @@
-<a href="{{ route('web.employees.doctor', ['employee' => $employee]) }}"
-   class="btn btn-outline-primary w-full md:w-auto mt-indent-half sm:mr-indent-xs">
-    {{ config("staff-doctors.teaserBtnTitle") }}
-</a>
+@php($doctorInfo = $employee->doctorInfo)
+@if (! empty($doctorInfo) && $doctorInfo->published_at)
+    <a href="{{ route('web.employees.doctor', ['employee' => $employee]) }}"
+       class="btn btn-outline-primary w-full md:w-auto mt-indent-half sm:mr-indent-xs">
+        {{ config("staff-doctors.teaserBtnTitle") }} {{ debugbar()->info($employee) }}
+    </a>
+@endif

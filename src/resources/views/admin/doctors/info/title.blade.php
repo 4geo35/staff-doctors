@@ -11,5 +11,18 @@
                 wire:click="showEdit()">
             <x-tt::ico.edit />
         </button>
+
+        <button type="button"
+                class="btn {{ $doctorInfo->published_at ? 'btn-success' : 'btn-danger' }} px-btn-x-ico ml-indent-half"
+                @cannot("update", $doctorInfo) disabled
+                @else wire:loading.attr="disabled"
+                @endcannot
+                wire:click="switchPublish({{ $doctorInfo->id }})">
+            @if ($doctorInfo->published_at)
+                <x-tt::ico.toggle-on/>
+            @else
+                <x-tt::ico.toggle-off/>
+            @endif
+        </button>
     </div>
 </div>

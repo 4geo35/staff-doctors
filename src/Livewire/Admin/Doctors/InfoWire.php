@@ -86,6 +86,16 @@ class InfoWire extends Component
         $this->closeData();
     }
 
+    public function switchPublish(): void
+    {
+        $this->resetFields();
+        if (! $this->checkAuth()) { return; }
+        $this->doctorInfo->update([
+            "published_at" => $this->doctorInfo->published_at ? null : now(),
+        ]);
+    }
+
+
     protected function resetFields(): void
     {
         $this->reset("careerStartDate", "degree", "rank", "category", "experienceYears");

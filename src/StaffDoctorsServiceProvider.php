@@ -6,6 +6,7 @@ use GIS\ContactPage\Events\ContactDeleted;
 use GIS\ContactPage\Events\ContactUpdated;
 use GIS\StaffDoctors\Helpers\ClinicActionsManager;
 use GIS\StaffDoctors\Helpers\OfferActionsManager;
+use GIS\StaffDoctors\Helpers\YmlActionsManager;
 use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffDoctors\Listeners\DisassociateClinicContactAfterDelete;
 use GIS\StaffDoctors\Listeners\FreshClinicAfterContactUpdate;
@@ -50,6 +51,7 @@ class StaffDoctorsServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/export.php');
 
         $this->expandConfiguration();
         $this->observeModels();
@@ -183,6 +185,11 @@ class StaffDoctorsServiceProvider extends ServiceProvider
 
         $this->app->singleton("doctor-offer-actions", function () {
             $managerClass = config("staff-doctors.customOfferActionsManager") ?? OfferActionsManager::class;
+            return new $managerClass();
+        });
+
+        $this->app->singleton("doctor-yml-actions", function () {
+            $managerClass = config("staff-doctors.customYmlActionsManager") ?? YmlActionsManager::class;
             return new $managerClass();
         });
     }

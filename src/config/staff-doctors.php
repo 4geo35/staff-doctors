@@ -6,6 +6,13 @@ return [
     "offerQueryKey" => "offer",
     "offerFeedPrefix" => "offer",
 
+    // YML
+    "ymlPrefix" => "doctor-export",
+    "ymlName" => env("DOCTOR_YML_NAME", ""),
+    "ymlCompany" => env("DOCTOR_YML_COMPANY", ""),
+    "ymlPicture" => env("DOCTOR_YML_PICTURE", "favicon.ico"),
+    "ymlEmail" => env("DOCTOR_YML_EMAIL", ""),
+
     // Btn text
     "teaserBtnTitle" => "Подробнее",
 
@@ -39,6 +46,7 @@ return [
     "customAdminDoctorOfferController" => null,
 
     "customWebEmployeeController" => null,
+    "customExportDoctorController" => null,
 
     // Listeners
     "customFreshClinicAfterContactUpdateListener" => null,
@@ -47,6 +55,7 @@ return [
     // Facades
     "customClinicActionsManager" => null,
     "customOfferActionsManager" => null,
+    "customYmlActionsManager" => null,
 
     // Blade components
     "customAdminBladeDoctorInfoComponent" => null,

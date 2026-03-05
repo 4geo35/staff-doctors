@@ -13,9 +13,10 @@ class EmployeeController extends Controller
     public function doctor(EmployeeInterface $employee): View
     {
         if (! $employee->published_at) { abort(404); }
+        $info = $employee->doctorInfo;
+        if (! $info->published_at) { abort(404); }
 
         $metas = MetaActions::renderByModel($employee);
-        $info = $employee->doctorInfo;
         $info->load("orderedEducation", "orderedJobs", "orderedCertificates");
         $services = OfferActions::getSplittingByServices($employee);
         return view(

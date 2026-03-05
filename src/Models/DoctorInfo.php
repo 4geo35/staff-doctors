@@ -16,6 +16,7 @@ class DoctorInfo extends Model implements DoctorInfoInterface
         "degree",
         "rank",
         "category",
+        "published_at",
     ];
 
     public function employee(): BelongsTo
