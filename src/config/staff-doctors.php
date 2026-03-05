@@ -4,8 +4,11 @@ return [
     "doctorPrefix" => "",
     "serviceQueryKey" => "service",
     "offerQueryKey" => "offer",
+    "appointmentBlockId" => "make-appointment",
 
     // YML
+    "ymlCacheKey" => "doctor-yml-export",
+    "ymlCacheLifetime" => env("DOCTOR_YML_CACHE_LIFETIME", 86400),
     "ymlPrefix" => "doctor-export",
     "ymlName" => env("DOCTOR_YML_NAME", ""),
     "ymlCompany" => env("DOCTOR_YML_COMPANY", ""),

@@ -2,33 +2,39 @@
 
 namespace GIS\StaffDoctors\Helpers;
 
+use GIS\StaffDoctors\Facades\OfferActions;
 use GIS\StaffDoctors\Interfaces\ClinicInterface;
 use GIS\StaffDoctors\Interfaces\DoctorCertificateInterface;
 use GIS\StaffDoctors\Interfaces\DoctorEducationInterface;
 use GIS\StaffDoctors\Interfaces\DoctorJobInterface;
+use GIS\StaffDoctors\Interfaces\DoctorOfferInterface;
 use GIS\StaffDoctors\Interfaces\DoctorServiceInterface;
 use GIS\StaffDoctors\Models\Clinic;
 use GIS\StaffDoctors\Models\DoctorService;
 use GIS\StaffPages\Interfaces\EmployeeInterface;
 use GIS\StaffPages\Models\Employee;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use SimpleXMLElement;
 class YmlActionsManager
 {
     protected SimpleXMLElement|null $file = null;
     public function getXMLContent(): string|null
     {
-        // TODO make cache
+        $key = config("staff-doctors.ymlCacheKey");
+        $lifetime = config("staff-doctors.ymlCacheLifetime");
 
-        $this->initFile();
-        if (! $this->file) { return null; }
+        return Cache::remember($key, $lifetime, function () {
+            $this->initFile();
+            if (! $this->file) { return null; }
 
-        $this->addDoctors();
-        $this->addClinics();
-        $this->addServices();
-        $this->addOffers();
+            $this->addDoctors();
+            $this->addClinics();
+            $this->addServices();
+            $this->addOffers();
 
-        return $this->file->asXML();
+            return $this->file->asXML();
+        });
     }
 
     protected function initFile(): void
@@ -282,5 +288,88 @@ class YmlActionsManager
 
     protected function addOffers(): void
     {
+        $collection = OfferActions::getOnlyActive();
+        if (! $collection->count()) { return; }
+
+        $offers = $this->file->addChild("offers");
+        foreach ($collection as $item) {
+            $this->addOffer($offers, $item);
+        }
+    }
+
+    protected function addOffer(SimpleXMLElement $offers, DoctorOfferInterface $offer): void
+    {
+        $element = $offers->addChild("offer");
+        $element->addAttribute("id", $offer->feed_id);
+        $element->addChild("internal_id", $offer->id);
+        $element->addChild(
+            "url",
+            htmlspecialchars($offer->feed_url, ENT_XML1 | ENT_QUOTES, 'UTF-8')
+        );
+
+        $element->addChild("oms", $offer->oms ? 'true' : 'false');
+        $element->addChild("appointment", $offer->appointment ? 'true' : 'false');
+
+        $this->addOfferPrice($element, $offer);
+        $this->addOfferService($element, $offer);
+        $this->addOfferClinic($element, $offer);
+    }
+
+    protected function addOfferPrice(SimpleXMLElement $element, DoctorOfferInterface $offer): void
+    {
+        $priceModel = $offer->active_price;
+        if (! $priceModel) { return; }
+        $price = $element->addChild("price");
+        $price->addChild("base_price", $priceModel->price);
+        $price->addChild("currency", "RUB");
+        if ($priceModel->discount) {
+            $discount = $price->addChild("discount", $priceModel->discount);
+            if ($priceModel->discount_condition) {
+                $discount->addAttribute("name", $priceModel->discount_condition);
+            }
+        }
+        if ($priceModel->free_condition) {
+            $price->addChild("free_appointment", $priceModel->free_condition);
+        }
+    }
+
+    protected function addOfferService(SimpleXMLElement $element, DoctorOfferInterface $offer): void
+    {
+        $offerService = $offer->service;
+        if (! $offerService) { return; }
+
+        $serviceElement = $element->addChild("service");
+        $serviceElement->addAttribute("id", $offerService->slug);
+    }
+
+    protected function addOfferClinic(SimpleXMLElement $element, DoctorOfferInterface $offer): void
+    {
+        $offerClinic = $offer->clinic;
+        if (! $offerClinic) { return; }
+
+        $clinicElement = $element->addChild("clinic");
+        $clinicElement->addAttribute("id", $offerClinic->feed_id);
+
+        $this->addOfferDoctor($clinicElement, $offer);
+    }
+
+    protected function addOfferDoctor(SimpleXMLElement $element, DoctorOfferInterface $offer): void
+    {
+        $offerDoctor = $offer->doctor;
+        if (! $offerDoctor) { return; }
+
+        $doctorElement = $element->addChild("doctor");
+        $doctorElement->addAttribute("id", $offerDoctor->slug);
+
+        $offerSpeciality = $offer->department;
+        if ($offerSpeciality) {
+            $doctorElement->addChild("speciality", $offerSpeciality->title);
+        }
+
+        $doctorElement->addChild("children_appointment", $offer->children ? 'true' : 'false');
+        $doctorElement->addChild("adult_appointment", $offer->adult ? 'true' : 'false');
+        $doctorElement->addChild("house_call", $offer->house_call ? 'true' : 'false');
+        $doctorElement->addChild("telemed", $offer->telemedicine ? 'true' : 'false');
+        $doctorElement->addChild("is_base_service", $offer->is_base_service ? 'true' : 'false');
     }
 }

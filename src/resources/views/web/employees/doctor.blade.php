@@ -4,7 +4,7 @@
     @include("sd::web.employees.includes.h1")
 
     <div class="container mb-indent-lg">
-        @php($anchor = $services->count() ? "make-appointment" : "")
+        @php($anchor = $services->count() ? config("staff-doctors.appointmentBlockId") : "")
         <x-sp::employee.teaser :$employee :on-full-page="true" :is-full-page="true" :$anchor />
     </div>
 

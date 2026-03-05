@@ -18,6 +18,7 @@ interface DoctorOfferInterface extends Arrayable, ArrayAccess, CanBeEscapedWhenC
     HasBroadcastChannel, Jsonable, JsonSerializable, QueueableEntity, Stringable, UrlRoutable
 {
     public function prices(): HasMany;
+    public function doctor(): BelongsTo;
     public function service(): BelongsTo;
     public function clinic(): BelongsTo;
     public function department(): BelongsTo;

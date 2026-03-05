@@ -1,4 +1,4 @@
-<div id="make-appointment" class="mt-indent-lg {{ !$services->count() ? 'hidden' : '' }}">
+<div id="{{ config('staff-doctors.appointmentBlockId') }}" class="mt-indent-lg {{ !$services->count() ? 'hidden' : '' }}">
     @if (!empty($activeOffer))
         <div class="hidden" x-data x-init="$dispatch('show-appointment-form-by-active')"></div>
     @endif

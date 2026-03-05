@@ -71,6 +71,23 @@ class DoctorOffer extends Model implements DoctorOfferInterface
         return config("staff-doctors.offerFeedPrefix") . "_{$this->id}";
     }
 
+    public function getFeedUrlAttribute(): string
+    {
+        return implode("", [
+            route("web.employees.doctor", ["employee" => $this->doctor]),
+            "?",
+            config("staff-doctors.serviceQueryKey"),
+            "=",
+            $this->service->slug,
+            "&",
+            config("staff-doctors.offerQueryKey"),
+            "=",
+            $this->feed_id,
+            "#",
+            config('staff-doctors.appointmentBlockId')
+        ]);
+    }
+
     public function getDoctorIsActiveAttribute(): bool
     {
         return (bool) $this->doctor->published_at;
