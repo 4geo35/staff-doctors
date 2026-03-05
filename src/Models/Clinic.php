@@ -35,4 +35,9 @@ class Clinic extends Model implements ClinicInterface
         $modelClass = config("staff-doctors.customDoctorOfferModel") ?? DoctorOffer::class;
         return $this->hasMany($modelClass, "service_id");
     }
+
+    public function getFeedIdAttribute(): string
+    {
+        return config("staff-doctors.clinicFeedPrefix") . "_{$this->id}";
+    }
 }

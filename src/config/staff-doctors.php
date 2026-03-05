@@ -4,7 +4,6 @@ return [
     "doctorPrefix" => "",
     "serviceQueryKey" => "service",
     "offerQueryKey" => "offer",
-    "offerFeedPrefix" => "offer",
 
     // YML
     "ymlPrefix" => "doctor-export",
@@ -12,6 +11,8 @@ return [
     "ymlCompany" => env("DOCTOR_YML_COMPANY", ""),
     "ymlPicture" => env("DOCTOR_YML_PICTURE", "favicon.ico"),
     "ymlEmail" => env("DOCTOR_YML_EMAIL", ""),
+    "clinicFeedPrefix" => "clinic",
+    "offerFeedPrefix" => "offer",
 
     // Btn text
     "teaserBtnTitle" => "Подробнее",
@@ -85,4 +86,9 @@ return [
     "offerPolicy" => \GIS\StaffDoctors\Policies\DoctorOfferPolicy::class,
     "offerPolicyTitle" => "Управление предложениями врачей",
     "offerPolicyKey" => "doctor_offers",
+
+    // Templates
+    "templates" => [
+        "doctor-yml" => \GIS\StaffDoctors\Templates\DoctorYml::class,
+    ],
 ];

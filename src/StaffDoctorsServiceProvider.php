@@ -4,6 +4,7 @@ namespace GIS\StaffDoctors;
 
 use GIS\ContactPage\Events\ContactDeleted;
 use GIS\ContactPage\Events\ContactUpdated;
+use GIS\Fileable\Traits\ExpandTemplatesTrait;
 use GIS\StaffDoctors\Helpers\ClinicActionsManager;
 use GIS\StaffDoctors\Helpers\OfferActionsManager;
 use GIS\StaffDoctors\Helpers\YmlActionsManager;
@@ -35,6 +36,8 @@ use Livewire\Livewire;
 
 class StaffDoctorsServiceProvider extends ServiceProvider
 {
+    use ExpandTemplatesTrait;
+
     public function register(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
@@ -155,6 +158,7 @@ class StaffDoctorsServiceProvider extends ServiceProvider
     protected function expandConfiguration(): void
     {
         $sd = app()->config["staff-doctors"];
+        $this->expandTemplates($sd);
 
         $um = app()->config["user-management"];
         $permissions = $um["permissions"];
