@@ -18,7 +18,7 @@ return [
     "offerFeedPrefix" => "offer",
 
     // Btn text
-    "teaserBtnTitle" => "Подробнее",
+    "teaserShowBtnTitle" => env("DOCTOR_TEASER_SHOW_BTN_TITLE", "Подробнее"),
 
     // Forms
     "customOfferRequestRecordModel" => null,
