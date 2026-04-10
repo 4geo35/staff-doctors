@@ -15,17 +15,20 @@ class ClinicActionsManager
         $contact = $clinic->contact;
         if (! $contact) { return; }
 
-        $clinic->name = $contact->title;
+        $clinic->name = (string) $contact->title;
 
-        list($city, $address) = $this->getCityFromAddress($contact->address);
+        list($city, $address) = $this->getCityFromAddress((string) $contact->address);
         $clinic->address = $address;
         if (! empty($city)) { $clinic->city = $city; }
+        else { $clinic->city = ''; }
 
         $phone = $this->getPhone($contact);
         if (! empty($phone)) { $clinic->phone = $phone; }
+        else { $clinic->phone = ''; }
 
         $email = $this->getEmail($contact);
         if (! empty($email)) { $clinic->email = $email; }
+        else { $clinic->email = ''; }
     }
 
     public function findClinicsByContactId(int $contactId): Collection

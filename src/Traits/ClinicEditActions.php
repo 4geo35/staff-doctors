@@ -65,11 +65,11 @@ trait ClinicEditActions
         if (! $modelObject) { return; }
         if (! $this->checkAuth("update", $modelObject)) { return; }
 
-        $this->name = $modelObject->name;
-        $this->address = $modelObject->address;
-        $this->city = $modelObject->city;
-        $this->email = $modelObject->email;
-        $this->phone = $modelObject->phone;
+        $this->name = (string) $modelObject->name;
+        $this->address = (string) $modelObject->address;
+        $this->city = (string) $modelObject->city;
+        $this->email = (string) $modelObject->email;
+        $this->phone = (string) $modelObject->phone;
         $this->companyId = (string) $modelObject->company_id;
         $this->contactId = $modelObject->contact_id ?? "";
 

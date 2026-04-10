@@ -11,4 +11,9 @@ class ClinicObserver
     {
         ClinicActions::setValuesFromContact($clinic);
     }
+
+    public function updating(ClinicInterface $clinic): void
+    {
+        ClinicActions::setValuesFromContact($clinic);
+    }
 }

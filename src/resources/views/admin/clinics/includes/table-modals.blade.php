@@ -94,9 +94,9 @@
                     Идентификатор организации в поиске
                 </label>
                 <input type="text" id="clinicCompanyId"
-                       class="form-control {{ $errors->has("clinicId") ? "border-danger" : "" }}"
+                       class="form-control {{ $errors->has("companyId") ? "border-danger" : "" }}"
                        wire:loading.attr="disabled"
-                       wire:model="clinicId">
+                       wire:model="companyId">
                 <div class="text-sm text-info">
                     Например, 1032739194.
                     <br>
@@ -106,7 +106,7 @@
                         <li>Чтобы открыть профиль организации, нажмите Профиль. Цифры из ссылки будут идентификатором организации. Например, для ссылки https://yandex.ru/profile/1032739194 идентификатор организации 1032739194.</li>
                     </ol>
                 </div>
-                <x-tt::form.error name="clinicId"/>
+                <x-tt::form.error name="companyId"/>
             </div>
 
             <div class="flex items-center space-x-indent-half">

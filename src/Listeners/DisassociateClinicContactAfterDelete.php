@@ -16,7 +16,6 @@ class DisassociateClinicContactAfterDelete implements ShouldQueue
     {
         $contactId = $event->contactId;
         $collection = ClinicActions::findClinicsByContactId($contactId);
-        Log::info("DisassociateClinicContactAfterDelete listener " . $collection->count());
         foreach ($collection as $clinic) {
             /**
              * @var ClinicInterface $clinic
