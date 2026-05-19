@@ -75,7 +75,7 @@ class InfoWire extends Component
 
         $this->doctorInfo->update([
             "experience_years" => $this->experienceYears,
-            "career_start_date" => $this->careerStartDate,
+            "career_start_date" => empty($this->careerStartDate) ? null : $this->careerStartDate,
             "degree" => $this->degree,
             "rank" => $this->rank,
             "category" => $this->category,
