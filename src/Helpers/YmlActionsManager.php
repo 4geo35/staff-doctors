@@ -276,7 +276,7 @@ class YmlActionsManager
         $element->addAttribute("id", $service->slug);
         $element->addChild("internal_id", $service->id);
         if (! empty($service->title)) {
-            $element->addChild("title", $service->title);
+            $element->addChild("name", $service->title);
         }
         if (! empty($service->gov_id)) {
             $element->addChild("gov_id", $service->gov_id);
