@@ -301,7 +301,7 @@ class YmlActionsManager
     {
         $element = $offers->addChild("offer");
         $element->addAttribute("id", $offer->feed_id);
-        $element->addChild("internal_id", $offer->id);
+//        $element->addChild("internal_id", $offer->id);
         $element->addChild(
             "url",
             htmlspecialchars($offer->feed_url, ENT_XML1 | ENT_QUOTES, 'UTF-8')
