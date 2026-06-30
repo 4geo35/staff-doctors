@@ -84,14 +84,14 @@ class YmlActionsManager
     protected function addDoctor(SimpleXMLElement $doctors, EmployeeInterface $employee): void
     {
         $doctor = $doctors->addChild("doctor");
-        $doctor->addAttribute("id", $employee->slug);
-        $doctor->addChild("name", $employee->fio);
+        $doctor->addAttribute("id", trim($employee->slug));
+        $doctor->addChild("name", trim($employee->fio));
         $doctor->addChild("url", route("web.employees.doctor", ["employee" => $employee]));
         $doctor->addChild("internal_id", $employee->id);
-        $doctor->addChild("first_name", $employee->name);
-        $doctor->addChild("surname", $employee->last_name);
+        $doctor->addChild("first_name", trim($employee->name));
+        $doctor->addChild("surname", trim($employee->last_name));
         if (! empty($employee->patronymic)) {
-            $doctor->addChild("patronymic", $employee->patronymic);
+            $doctor->addChild("patronymic", trim($employee->patronymic));
         }
         if (! empty($employee->image)) {
             $url = route("thumb-img", ["template" => "doctor-yml", "filename" => $employee->image->filename]);
@@ -110,19 +110,19 @@ class YmlActionsManager
         if (empty($info)) { return; }
 
         if (! empty($info->experience_years)) {
-            $doctor->addChild("experience_years", $info->experience_years);
+            $doctor->addChild("experience_years", trim($info->experience_years));
         }
         if (! empty($info->career_start_date)) {
-            $doctor->addChild("career_start_date", $info->career_start_date);
+            $doctor->addChild("career_start_date", trim($info->career_start_date));
         }
         if (! empty($info->degree)) {
-            $doctor->addChild("degree", $info->degree);
+            $doctor->addChild("degree", trim($info->degree));
         }
         if (! empty($info->rank)) {
-            $doctor->addChild("rank", $info->rank);
+            $doctor->addChild("rank", trim($info->rank));
         }
         if (! empty($info->category)) {
-            $doctor->addChild("category", $info->category);
+            $doctor->addChild("category", trim($info->category));
         }
     }
 
@@ -142,16 +142,16 @@ class YmlActionsManager
     {
         $element = $doctor->addChild("education");
         if (! empty($education->organization)) {
-            $element->addChild("organization", $education->organization);
+            $element->addChild("organization", trim($education->organization));
         }
         if (! empty($education->finish_year)) {
-            $element->addChild("finish_year", $education->finish_year);
+            $element->addChild("finish_year", trim($education->finish_year));
         }
         if (! empty($education->type)) {
-            $element->addChild("type", $education->type);
+            $element->addChild("type", trim($education->type));
         }
         if (! empty($education->specialization)) {
-            $element->addChild("specialization", $education->specialization);
+            $element->addChild("specialization", trim($education->specialization));
         }
     }
 
@@ -171,13 +171,13 @@ class YmlActionsManager
     {
         $element = $doctor->addChild("job");
         if (! empty($job->organization)) {
-            $element->addChild("organization", $job->organization);
+            $element->addChild("organization", trim($job->organization));
         }
         if (! empty($job->period_years)) {
-            $element->addChild("period_years", $job->period_years);
+            $element->addChild("period_years", trim($job->period_years));
         }
         if (! empty($job->position)) {
-            $element->addChild("position", $job->position);
+            $element->addChild("position", trim($job->position));
         }
     }
 
@@ -197,13 +197,13 @@ class YmlActionsManager
     {
         $element = $doctor->addChild("certificate");
         if (! empty($certificate->organization)) {
-            $element->addChild("organization", $certificate->organization);
+            $element->addChild("organization", trim($certificate->organization));
         }
         if (! empty($certificate->finish_year)) {
-            $element->addChild("finish_year", $certificate->finish_year);
+            $element->addChild("finish_year", trim($certificate->finish_year));
         }
         if (! empty($certificate->name)) {
-            $element->addChild("name", $certificate->name);
+            $element->addChild("name", trim($certificate->name));
         }
     }
 
@@ -232,22 +232,22 @@ class YmlActionsManager
         $element->addAttribute("id", $clinic->feed_id);
         $element->addChild("internal_id", $clinic->id);
         if (! empty($clinic->name)) {
-            $element->addChild("name", $clinic->name);
+            $element->addChild("name", trim($clinic->name));
         }
         if (! empty($clinic->address)) {
-            $element->addChild("address", $clinic->address);
+            $element->addChild("address", trim($clinic->address));
         }
         if (! empty($clinic->city)) {
-            $element->addChild("city", $clinic->city);
+            $element->addChild("city", trim($clinic->city));
         }
         if (! empty($clinic->email)) {
-            $element->addChild("email", $clinic->email);
+            $element->addChild("email", trim($clinic->email));
         }
         if (! empty($clinic->phone)) {
-            $element->addChild("phone", $clinic->phone);
+            $element->addChild("phone", trim($clinic->phone));
         }
         if (! empty($clinic->company_id)) {
-            $element->addChild("company_id", $clinic->company_id);
+            $element->addChild("company_id", trim($clinic->company_id));
         }
     }
 
@@ -276,13 +276,13 @@ class YmlActionsManager
         $element->addAttribute("id", $service->slug);
         $element->addChild("internal_id", $service->id);
         if (! empty($service->title)) {
-            $element->addChild("name", $service->title);
+            $element->addChild("name", trim($service->title));
         }
         if (! empty($service->gov_id)) {
-            $element->addChild("gov_id", $service->gov_id);
+            $element->addChild("gov_id", trim($service->gov_id));
         }
         if (! empty($service->short)) {
-            $element->addChild("description", $service->short);
+            $element->addChild("description", trim($service->short));
         }
     }
 
@@ -320,16 +320,16 @@ class YmlActionsManager
         $priceModel = $offer->active_price;
         if (! $priceModel) { return; }
         $price = $element->addChild("price");
-        $price->addChild("base_price", $priceModel->price);
+        $price->addChild("base_price", trim($priceModel->price));
         $price->addChild("currency", "RUB");
         if ($priceModel->discount) {
-            $discount = $price->addChild("discount", $priceModel->discount);
+            $discount = $price->addChild("discount", trim($priceModel->discount));
             if ($priceModel->discount_condition) {
-                $discount->addAttribute("name", $priceModel->discount_condition);
+                $discount->addAttribute("name", trim($priceModel->discount_condition));
             }
         }
         if ($priceModel->free_condition) {
-            $price->addChild("free_appointment", $priceModel->free_condition);
+            $price->addChild("free_appointment", trim($priceModel->free_condition));
         }
     }
 
@@ -348,7 +348,7 @@ class YmlActionsManager
         if (! $offerClinic) { return; }
 
         $clinicElement = $element->addChild("clinic");
-        $clinicElement->addAttribute("id", $offerClinic->feed_id);
+        $clinicElement->addAttribute("id", trim($offerClinic->feed_id));
 
         $this->addOfferDoctor($clinicElement, $offer);
     }
@@ -359,11 +359,11 @@ class YmlActionsManager
         if (! $offerDoctor) { return; }
 
         $doctorElement = $element->addChild("doctor");
-        $doctorElement->addAttribute("id", $offerDoctor->slug);
+        $doctorElement->addAttribute("id", trim($offerDoctor->slug));
 
         $offerSpeciality = $offer->department;
         if ($offerSpeciality) {
-            $doctorElement->addChild("speciality", $offerSpeciality->title);
+            $doctorElement->addChild("speciality", trim($offerSpeciality->title));
         }
 
         $doctorElement->addChild("children_appointment", $offer->children ? 'true' : 'false');
