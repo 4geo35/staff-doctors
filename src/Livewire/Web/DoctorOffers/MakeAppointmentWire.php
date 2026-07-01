@@ -130,7 +130,10 @@ class MakeAppointmentWire extends Component
             ]);
             $record->offer()->create([
                 "offer_id" => $this->currentOffer->id,
-                "clinic_title" => $this->currentOffer->clinic->name,
+                "clinic_title" => implode(", ", [
+                    $this->currentOffer->clinic->name,
+                    $this->currentOffer->clinic->address,
+                ]),
                 "service_title" => $this->currentOffer->service->title,
                 "department_title" => $this->currentOffer->department->title,
                 "price" => $this->currentOffer->active_price ? $this->currentOffer->active_price->price : null,
