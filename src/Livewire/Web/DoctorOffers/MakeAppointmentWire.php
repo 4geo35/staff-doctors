@@ -33,7 +33,7 @@ class MakeAppointmentWire extends Component
     public string $name = "";
     public string $phone = "";
     public string $comment = "";
-    public bool $privacy = true;
+    public bool $privacy = false;
 
     public function rules(): array
     {
